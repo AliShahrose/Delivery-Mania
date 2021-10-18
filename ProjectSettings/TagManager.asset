@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - GM
+  - Restaurant
+  - Building
+  - Map
+  - Waypoints
+  - Traffic
+  - RoadBlock
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Icons
+  - Grid
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Floor
+    uniqueID: 323819689
+    locked: 0
+  - name: Particle
+    uniqueID: 1891939429
+    locked: 0
+  - name: Collider
+    uniqueID: 3557377249
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
