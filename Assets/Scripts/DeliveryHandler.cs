@@ -10,22 +10,23 @@ public class DeliveryHandler : MonoBehaviour
     public GameObject player;
     public GameObject foodPrefab;
 
-    public DeliverFood foodScript;
-    public Difficulty difficultyScript;
 
     public Text addressValue;
     public Text scoreValue;
     public Text timeValue;
 
-    public int deliveries = 0;
     public float timeTotal;
+
+    public Difficulty difficultyScript;
+    public DeliverFood foodScript;
+
+    private GameMaster gameMaster;
 
     private string address = "";
     private bool isAccepted = false;
     private bool canCount = false;
     private float timeLeft;
 
-    private GameMaster gameMaster;
 
 
 
@@ -74,6 +75,9 @@ public class DeliveryHandler : MonoBehaviour
                 address = Random.Range(1,43).ToString();
                 addressValue.text = address;
 
+                if (gameMaster.level >= 2)
+                    difficultyScript.introduceRoadBlocks();
+
                 isAccepted = true;
                 restaurantPrompt.SetActive(false);
                 Debug.Log(address);
@@ -85,6 +89,8 @@ public class DeliveryHandler : MonoBehaviour
 
                 // Set the address in DeliverFood so that it knows where to go
                 foodScript.address = other.name.ToString();
+                foodScript.followBuilding = true;
+
 
                 // Successful delivery
                 if (other.name.ToString() == string.Format("Building{0}", address))
@@ -95,8 +101,9 @@ public class DeliveryHandler : MonoBehaviour
 
                     // Relay information to other scripts
                     difficultyScript.setDifficulty(scoreInt);
-                    gameMaster.level = scoreInt;
                     foodScript.isSuccess = true;
+                    if (gameMaster.level < scoreInt)
+                        gameMaster.level = scoreInt;
 
                     // Update HUD
                     scoreValue.text = scoreInt.ToString();
@@ -111,7 +118,6 @@ public class DeliveryHandler : MonoBehaviour
                 else
                 {
                 
-
                     // Relay information to other scripts
                     foodScript.isSuccess = false;
 
@@ -141,6 +147,7 @@ public class DeliveryHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Start timer
         if (timeLeft > 0.0f && canCount)
         {
 			timeLeft -= Time.deltaTime;
@@ -151,7 +158,9 @@ public class DeliveryHandler : MonoBehaviour
 			canCount = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        // The following key presses are not expected from the player
+        // Test difficulty
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             int scoreInt = int.Parse(scoreValue.text);
                     scoreInt++;
@@ -164,6 +173,25 @@ public class DeliveryHandler : MonoBehaviour
                     timeValue.text = "x";
                     foodScript.isSuccess = true;
                     Debug.Log("Correct");
+        }
+
+        // Test success explosion
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            foodScript.followBuilding = false;
+            foodScript.isSuccess = true;
+            GameObject food = Instantiate(foodPrefab) as GameObject;
+            food.transform.position = player.transform.position;
+        }
+
+        // Test failure explosion
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            foodScript.followBuilding = false;
+            foodScript.isSuccess = false;
+            GameObject food = Instantiate(foodPrefab) as GameObject;
+            food.transform.position = player.transform.position;
+
         }
     }
 }

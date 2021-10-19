@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject map;
     public GameObject minimap;
+    public GameObject admin;
 
     void Awake()
     {
@@ -57,6 +58,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q))
         {
             map.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            admin.SetActive(true);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.H))
+        {
+            admin.SetActive(false);
         }
 
     }
@@ -148,6 +159,11 @@ public class PlayerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public float GetVelocityMagnitude()
+    {
+        return carRigidbody2D.velocity.magnitude;
     }
 
 }

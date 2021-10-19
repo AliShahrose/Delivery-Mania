@@ -4,53 +4,80 @@ using UnityEngine;
 
 public class NpcController : MonoBehaviour
 {
-    // Array of waypoints to walk from one to the next one
-    [SerializeField]
-    private Transform[] waypoints;
+    public SpriteRenderer spriteRenderer;
+    
+    public GameObject waypointsArray;
+    public Vector3 directionVector;
+    public float speed;
 
-    // Walk speed that can be set in Inspector
-    [SerializeField]
-    private float moveSpeed = 2f;
+    private Animator animator;
 
-    // Index of current waypoint from which Enemy walks
-    // to the next one
-    private int waypointIndex = 0;
+    private Waypoints wp;
+    private int index;
+    private string direction;
 
-	// Use this for initialization
-	private void Start () {
-
-        // Set position of Enemy as position of the first waypoint
-        transform.position = waypoints[waypointIndex].transform.position;
-	}
-	
-	// Update is called once per frame
-	private void Update () {
-
-        // Move Enemy
-        Move();
-	}
-
-    // Method that actually make Enemy walk
-    private void Move()
+    // Start is called before the first frame update
+    void Start()
     {
-        // If Enemy didn't reach last waypoint it can move
-        // If enemy reached last waypoint then it stops
-        if (waypointIndex <= waypoints.Length - 1)
+        wp = waypointsArray.GetComponent<Waypoints>();
+        animator = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        // Move to the new waypoint in the array
+        transform.position = Vector2.MoveTowards(transform.position, wp.waypoints[index].position, speed * Time.deltaTime);
+
+        // Change direction depending on where the waypoint is looking
+
+        if(Vector2.Distance(transform.position, wp.waypoints[index].position) < 0.1f)
         {
-
-            // Move Enemy from current waypoint to the next one
-            // using MoveTowards method
-            transform.position = Vector2.MoveTowards(transform.position,
-               waypoints[waypointIndex].transform.position,
-               moveSpeed * Time.deltaTime);
-
-            // If Enemy reaches position of waypoint he walked towards
-            // then waypointIndex is increased by 1
-            // and Enemy starts to walk to the next waypoint
-            if (transform.position == waypoints[waypointIndex].transform.position)
+            // Go back to the first waypoint if there's no more in the array
+            if(index < wp.waypoints.Length - 1)
             {
-                waypointIndex += 1;
+                index++;
             }
+            else
+            {
+                index = 0;
+            }
+            direction = wp.waypoints[index].name;
+            changeDirection(direction);
         }
+    }
+
+    void changeDirection(string direction)
+    {
+        switch (direction)
+        {
+            case "North":
+                directionVector = Vector3.up;
+                break;
+
+            case "South":
+                directionVector = Vector3.down;
+                break;
+
+            case "East":
+                directionVector = Vector3.right;
+                break;
+
+            case "West":
+                directionVector = Vector3.left;
+                break;
+
+            default:
+                break;
+        }
+        
+        updateAnimation();
+    }
+
+    void updateAnimation()
+    {
+        animator.SetFloat("MoveX", directionVector.x);
+        animator.SetFloat("MoveY", directionVector.y);
     }
 }

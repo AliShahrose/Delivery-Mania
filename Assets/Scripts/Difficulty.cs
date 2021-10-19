@@ -73,7 +73,7 @@ public class Difficulty : MonoBehaviour
         }
     }
 
-    void introduceRoadBlocks()
+    public void introduceRoadBlocks()
     {
         // int even = Random.Range(0,(24 - 0) / 2) * 2;
                 // int odd = Random.Range(0,(24 - 0) / 2) * 2 + 1;
@@ -147,8 +147,8 @@ public class Difficulty : MonoBehaviour
                     
                 // }
 
-                // Randomly select with type of street to block
-                // Should not be consective streets
+        // Randomly select which type of street to block
+        // Should not be consective streets
         bool blockEven;
         if (Random.Range(0, 2) % 2 == 0)
             blockEven = true;
