@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 323819689
   m_SortingLayer: -3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5887386879389360388, guid: f29f636047874b74eb5b5370cfc80316,
+  m_Sprite: {fileID: -6645413047802616699, guid: f29f636047874b74eb5b5370cfc80316,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -113,19 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1489774367256531268}
-  directionSprites:
-  - {fileID: 8279203885849744636, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -2933763304883927783, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -396258942483662451, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -4056584258727785197, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: 4348877125603181583, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: 3405033858436691048, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: 5887386879389360388, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: 1125933733236780370, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -6645413047802616699, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -4802730557585814622, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: -8724352161565215846, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
-  - {fileID: 7640583145407493364, guid: f29f636047874b74eb5b5370cfc80316, type: 3}
   waypointsArray: {fileID: 0}
   directionVector: {x: 0, y: 0, z: 0}
   speed: 3

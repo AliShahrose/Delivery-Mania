@@ -24,17 +24,26 @@ public class PlayerController : MonoBehaviour
     public GameObject map;
     public GameObject minimap;
     public GameObject admin;
+    public GameObject messageRestaurant;
+
+    private GameMaster gameMaster;
+    private TweenPrompt tweenRestaurant;
+    private Vector2 startPos;
+    private bool showRestaurantMessage;
 
     void Awake()
     {
         carRigidbody2D = GetComponent<Rigidbody2D>();
+        gameMaster = GameObject.FindGameObjectWithTag("GM").GetComponent<GameMaster>();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        tweenRestaurant = messageRestaurant.GetComponent<TweenPrompt>();
+        startPos = transform.position;
+        showRestaurantMessage = gameMaster.showRestaurantMessage;
     }
 
     // Update is called once per frame
@@ -68,6 +77,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.H))
         {
             admin.SetActive(false);
+        }
+
+        // Tell the player to go to restaurant
+        if (Vector2.Distance(startPos, transform.position) > 15.0f && showRestaurantMessage)
+        {
+            messageRestaurant.SetActive(true);
+            tweenRestaurant.tweenIn();
+            StartCoroutine(disableWait(messageRestaurant, 3.0f));
+            gameMaster.setShowRestaurantPrompt(false);
+            showRestaurantMessage = false;
         }
 
     }
@@ -164,6 +183,12 @@ public class PlayerController : MonoBehaviour
     public float GetVelocityMagnitude()
     {
         return carRigidbody2D.velocity.magnitude;
+    }
+
+    IEnumerator disableWait(GameObject prompt, float time)
+    {
+        yield return new WaitForSeconds(time);
+        prompt.SetActive(false);
     }
 
 }

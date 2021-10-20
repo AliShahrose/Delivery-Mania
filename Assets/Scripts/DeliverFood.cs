@@ -40,12 +40,7 @@ public class DeliverFood : MonoBehaviour
             if (Vector2.Distance(transform.position, building.transform.position) < 0.1f)
             {
                 // Show approriate particles depending on success of failure
-                if (isSuccess)
-                    Instantiate(successParticles, transform.position, Quaternion.identity);
-                else
-                    Instantiate(failureParticles, transform.position, Quaternion.identity);
-
-                Destroy(gameObject);
+                showParticles();
             }
         }
         else
@@ -54,17 +49,21 @@ public class DeliverFood : MonoBehaviour
             transform.Translate(transform.up * Time.deltaTime * 3f);
 
             if (Vector2.Distance(startPos, transform.position) > 3.0f)
-            // if (Vector2.Distance(transform.position, new Vector2(0, startPos.y)) > 3.0f)
             {
                 // Show approriate particles depending on success of failure
-                if (isSuccess)
-                    Instantiate(successParticles, transform.position, Quaternion.identity);
-                else
-                    Instantiate(failureParticles, transform.position, Quaternion.identity);
-
-                Destroy(gameObject);
+                showParticles();
             }
         }
+    }
+
+    void showParticles()
+    {
+        if (isSuccess)
+            Instantiate(successParticles, transform.position, Quaternion.identity);
+        else
+            Instantiate(failureParticles, transform.position, Quaternion.identity);
+
+        Destroy(gameObject);
     }
     
 }

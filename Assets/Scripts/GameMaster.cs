@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameMaster : MonoBehaviour
 {
     private static GameMaster instance;
     public Vector2 checkpoint;
     public int level;
+    public bool showRestaurantMessage;
+    public bool showAccidentMessage;
     public Difficulty difficulty;
     
     void Awake()
@@ -21,17 +25,8 @@ public class GameMaster : MonoBehaviour
             Destroy(gameObject);
         }
         difficulty.setDifficulty(level);
-    }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        showRestaurantMessage = true;
+        showAccidentMessage = true;
     }
 
     public void setDifficulty(int level)
@@ -39,4 +34,16 @@ public class GameMaster : MonoBehaviour
         this.level = level;
         difficulty.setDifficulty(this.level);
     }
+
+    public void setShowRestaurantPrompt(bool value)
+    {
+        this.showRestaurantMessage = value;
+    }
+
+    public void setShowAccidentPrompt(bool value)
+    {
+        this.showAccidentMessage = value;
+    }
+
+
 }
