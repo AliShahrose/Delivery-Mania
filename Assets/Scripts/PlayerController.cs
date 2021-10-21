@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public GameObject admin;
     public GameObject messageRestaurant;
 
+    public AudioSource click;
+
     private GameMaster gameMaster;
     private TweenPrompt tweenRestaurant;
     private Vector2 startPos;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            click.Play();
             minimap.SetActive(true);
         }
 

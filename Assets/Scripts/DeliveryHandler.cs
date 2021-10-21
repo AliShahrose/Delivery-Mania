@@ -14,14 +14,18 @@ public class DeliveryHandler : MonoBehaviour
     public GameObject foodPrefab;
 
 
+    public Text restaurantText;
     public Text addressValue;
     public Text scoreValue;
     public Text timeValue;
+
+    public AudioSource click;
 
     public float timeTotal;
 
     public Difficulty difficultyScript;
     public DeliverFood foodScript;
+
 
     private GameMaster gameMaster;
     private Collider2D which;
@@ -79,10 +83,12 @@ public class DeliveryHandler : MonoBehaviour
     {
         if (other.CompareTag("Restaurant"))
         {
-            
-            
+            if (!isAccepted)
+            {
+            tweenRestaurant.tweenOutTime = 0.2f;
             tweenRestaurant.tweenOut();
             StartCoroutine(disableWait(restaurantPrompt, 1.5f, false));
+            }
         }
         else if (other.CompareTag("Building"))
         {
@@ -137,6 +143,7 @@ public class DeliveryHandler : MonoBehaviour
         // Order management
         if (Input.GetKeyDown(KeyCode.Space) && atBuilding)
         {
+            click.Play();
             // Accept the order
             if (which.CompareTag("Restaurant") && !isAccepted)
             {
@@ -144,14 +151,16 @@ public class DeliveryHandler : MonoBehaviour
                 address = Random.Range(1,43).ToString();
                 HUDaddress.tweenIn();
                 addressValue.text = address;
+                restaurantText.text = string.Format ("Deliver at {0}", address);
 
                 // Change roadblocks
                 if (gameMaster.level >= 2)
                     difficultyScript.introduceRoadBlocks();
 
                 isAccepted = true;
+                tweenRestaurant.tweenOutTime = 2.0f;
                 tweenRestaurant.tweenOut();
-                StartCoroutine(disableWait(restaurantPrompt, 1.5f, false));
+                StartCoroutine(disableWait(restaurantPrompt, 2.0f, false));
                 
                 // Start the time if the order is accepted
                 if (isAccepted)
@@ -185,25 +194,27 @@ public class DeliveryHandler : MonoBehaviour
         // Test difficulty
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            click.Play();
             int scoreInt = int.Parse(scoreValue.text);
-                    scoreInt++;
-                    difficultyScript.setDifficulty(scoreInt);
-                    gameMaster.level = scoreInt;
-                    HUDscore.tweenIn();
-                    scoreValue.text = scoreInt.ToString();
-                    canCount = false;
+            scoreInt++;
+            difficultyScript.setDifficulty(scoreInt);
+            gameMaster.level = scoreInt;
+            HUDscore.tweenIn();
+            scoreValue.text = scoreInt.ToString();
+            canCount = false;
 
-                    HUDaddress.tweenIn();
-                    addressValue.text = "x";
-                    HUDtime.tweenIn();
-                    timeValue.text = "x";
-                    foodScript.isSuccess = true;
-                    Debug.Log("Correct");
+            HUDaddress.tweenIn();
+            addressValue.text = "x";
+            HUDtime.tweenIn();
+            timeValue.text = "x";
+            foodScript.isSuccess = true;
+            Debug.Log("Correct");
         }
 
         // Test success explosion
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            click.Play();
             foodScript.followBuilding = false;
             foodScript.isSuccess = true;
             GameObject food = Instantiate(foodPrefab) as GameObject;
@@ -213,6 +224,7 @@ public class DeliveryHandler : MonoBehaviour
         // Test failure explosion
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            click.Play();
             foodScript.followBuilding = false;
             foodScript.isSuccess = false;
             GameObject food = Instantiate(foodPrefab) as GameObject;
@@ -307,5 +319,6 @@ public class DeliveryHandler : MonoBehaviour
 
         prompt.SetActive(false);
     }
+
 
 }
